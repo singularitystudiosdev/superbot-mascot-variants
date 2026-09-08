@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloom — every look of the rainbow mascot</title>
+<meta name="description" content="14 looks of the Superbot rainbow mascot, all drawn in-browser from one extracted glyph mask. No image files.">
+<style>
+  :root{
+    --bg:#0f1115; --panel:#161922; --text:#e6e7ea; --dim:rgba(230,231,234,.55);
+    --accent:#3ee85a; --tile:22%;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased}
+  main{max-width:1080px;margin:0 auto;padding:48px 24px 72px}
+  header h1{font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;margin:0 0 8px}
+  header h1 em{font-style:normal;color:var(--accent)}
+  header p{margin:0;color:var(--dim);max-width:640px}
+  /* lens switcher */
+  .lensbar{display:flex;align-items:center;gap:10px;margin:28px 0 22px;flex-wrap:wrap}
+  .lensbar span{font-size:12.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+  .lenses{display:inline-flex;background:var(--panel);border:1px solid rgba(255,255,255,.08);
+    border-radius:999px;padding:3px;gap:2px}
+  .lenses button{border:0;background:transparent;color:var(--dim);font:600 13px/1 inherit;
+    padding:8px 14px;border-radius:999px;cursor:pointer}
+  .lenses button[aria-pressed="true"]{background:var(--accent);color:#08130a}
+  .lenses button:hover:not([aria-pressed="true"]){color:var(--text)}
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:22px}
+  .card{display:flex;flex-direction:column;gap:9px}
+  .card button.tile{padding:0;border:1px solid rgba(255,255,255,.07);background:var(--panel);
+    border-radius:var(--tile);overflow:hidden;cursor:pointer;aspect-ratio:1;width:100%;
+    transition:transform .18s ease,border-color .18s ease}
+  .card button.tile:hover{transform:translateY(-3px) scale(1.015);border-color:rgba(255,255,255,.2)}
+  .card button.tile:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .card button.tile svg{display:block;width:100%;height:auto}
+  .card .cap b{font-size:13px;font-weight:600}
+  .card .cap small{display:block;font-size:11.5px;color:var(--dim);line-height:1.35}
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);
+    color:var(--dim);font-size:12.5px;max-width:720px}
+  footer a{color:var(--accent);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  /* lightbox */
+  dialog#lb{border:0;padding:0;background:transparent;max-width:min(92vw,860px);width:100%}
+  dialog#lb::backdrop{background:rgba(5,6,9,.72);backdrop-filter:blur(6px)}
+  .lb-panel{background:var(--panel);border:1px solid rgba(255,255,255,.1);border-radius:24px;
+    padding:22px;display:grid;grid-template-columns:minmax(0,440px) 1fr;gap:22px;align-items:center}
+  .lb-stage{border-radius:var(--tile);overflow:hidden;line-height:0}
+  .lb-stage svg{width:100%;height:auto;display:block}
+  .lb-info h2{margin:0 0 4px;font-size:20px;letter-spacing:-.01em}
+  .lb-chip{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--accent);background:rgba(62,232,90,.12);
+    border:1px solid rgba(62,232,90,.3);border-radius:999px;padding:3px 10px;margin-bottom:10px}
+  .lb-info p{color:var(--dim);font-size:13.5px;margin:0 0 16px}
+  .lb-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .lb-actions button{font:600 12.5px/1 inherit;color:var(--text);background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:9px 14px;cursor:pointer}
+  .lb-actions button:hover{background:rgba(255,255,255,.13)}
+  .lb-nav{position:fixed;top:50%;transform:translateY(-50%);font-size:26px;width:46px;height:46px;
+    border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(15,17,21,.8);
+    color:var(--text);cursor:pointer;display:grid;place-items:center}
+  #prev{left:max(8px,calc(50vw - 480px))} #next{right:max(8px,calc(50vw - 480px))}
+  #toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);
+    background:var(--accent);color:#08130a;font-weight:600;font-size:13px;border-radius:999px;
+    padding:9px 18px;opacity:0;pointer-events:none;transition:.25s ease}
+  #toast.on{opacity:1;transform:translateX(-50%)}
+  @media (max-width:640px){.lb-panel{grid-template-columns:1fr}.lb-nav{display:none}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1><em>Bloom</em>, every way it can look</h1>
+    <p>One 26×16 glyph mask, extracted cell-by-cell from the original
+      <a style="color:inherit" href="https://singularitystudiosdev.github.io/superbot-hero-loading/">rainbow mascot</a>.
+      Every tile below is drawn live in your browser from that data — no image files at all.</p>
+  </header>
+  <div class="lensbar">
+    <span>view as</span>
+    <div class="lenses" role="group" aria-label="Renderer">
+      <button data-lens="" aria-pressed="true">Original</button>
+      <button data-lens="glyphs" aria-pressed="false">Glyphs</button>
+      <button data-lens="pixels" aria-pressed="false">Pixels</button>
+      <button data-lens="vector" aria-pressed="false">Vector</button>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <footer>
+    Everything here is inline SVG regenerated from the mascot's glyph mask and sampled
+    palette (26×16 cells + a vector trace). Source:
+    <a href="https://singularitystudiosdev.github.io/superbot-hero-loading/">superbot-hero-loading</a> ·
+    <a href="https://github.com/singularitystudiosdev/superbot-hero-loading">repo</a>.
+    Click any tile for a closer look, downloads and the ASCII text.
+  </footer>
+</main>
+
+<dialog id="lb" aria-label="Variant detail">
+  <div class="lb-panel">
+    <div class="lb-stage" id="lbStage"></div>
+    <div class="lb-info">
+      <span class="lb-chip" id="lbCat"></span>
+      <h2 id="lbName"></h2>
+      <p id="lbNote"></p>
+      <div class="lb-actions">
+        <button id="dlSvg">Download SVG</button>
+        <button id="dlPng">Download PNG</button>
+        <button id="dlTxt">Copy ASCII</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+<button class="lb-nav" id="prev" hidden aria-label="Previous variant">‹</button>
+<button class="lb-nav" id="next" hidden aria-label="Next variant">›</button>
+<div id="toast" role="status"></div>
+
+<script src="data.d6a12364.js"></script>
+<script src="gallery.d6a12364.js"></script>
+</body>
+</html>
