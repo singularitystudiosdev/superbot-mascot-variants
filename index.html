@@ -72,27 +72,19 @@
 <body>
 <main>
   <header>
-    <h1><em>Bloom</em>, every way it can look</h1>
-    <p>One 26×16 glyph mask, extracted cell-by-cell from the original
-      <a style="color:inherit" href="https://singularitystudiosdev.github.io/superbot-hero-loading/">rainbow mascot</a>.
-      Every tile below is drawn live in your browser from that data — no image files at all.</p>
+    <h1><em>Bloom</em>, twelve shapes</h1>
+    <p>Shape studies of the
+      <a style="color:inherit" href="https://singularitystudiosdev.github.io/superbot-hero-loading/">rainbow mascot</a>:
+      same character, a different body plan on every tile. Each silhouette is hand-built
+      from clean SVG geometry and drawn live in your browser — no ASCII, no image files.</p>
   </header>
-  <div class="lensbar">
-    <span>view as</span>
-    <div class="lenses" role="group" aria-label="Renderer">
-      <button data-lens="" aria-pressed="true">Original</button>
-      <button data-lens="glyphs" aria-pressed="false">Glyphs</button>
-      <button data-lens="pixels" aria-pressed="false">Pixels</button>
-      <button data-lens="vector" aria-pressed="false">Vector</button>
-    </div>
-  </div>
   <div class="grid" id="grid"></div>
   <footer>
-    Everything here is inline SVG regenerated from the mascot's glyph mask and sampled
-    palette (26×16 cells + a vector trace). Source:
+    Every tile is inline SVG generated from a parametric silhouette (mask-cut eyes work
+    over any background). Source:
     <a href="https://singularitystudiosdev.github.io/superbot-hero-loading/">superbot-hero-loading</a> ·
     <a href="https://github.com/singularitystudiosdev/superbot-hero-loading">repo</a>.
-    Click any tile for a closer look, downloads and the ASCII text.
+    Click any tile for a closer look and downloads.
   </footer>
 </main>
 
@@ -106,7 +98,6 @@
       <div class="lb-actions">
         <button id="dlSvg">Download SVG</button>
         <button id="dlPng">Download PNG</button>
-        <button id="dlTxt">Copy ASCII</button>
       </div>
     </div>
   </div>
@@ -115,7 +106,6 @@
 <button class="lb-nav" id="next" hidden aria-label="Next variant">›</button>
 <div id="toast" role="status"></div>
 
-<script src="data.d6a12364.js"></script>
 <script src="gallery.d6a12364.js"></script>
 </body>
 </html>
